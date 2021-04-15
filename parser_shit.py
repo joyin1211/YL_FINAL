@@ -101,7 +101,31 @@ def getTaskByNum(num):
     import task_parsers
     for i in range(len(tasks)):
         result_tasks.append(task_parsers.get_some_bullshit(tasks[i]))
-    # you can code here. Don't edit answers and img_adresses list, i don't want to break this shit down. Also don't touch everything before this comment
-    # <sup> менять на ^, остальные теги удалять
+
+    for i in range(0, len(result_tasks)):
+        flag = False
+        dele = ''
+        new_str = result_tasks[i]
+        for j in range(len(result_tasks[i])):
+
+            if result_tasks[i][j] == '<':
+                flag = True
+
+            if flag:
+                dele += result_tasks[i][j]
+
+            if result_tasks[i][j] == '>':
+                flag = False
+                if dele != "<sup>":
+                    new_str = new_str.replace(dele, ' ')
+                    dele = ''
+                else:
+                    new_str = new_str.replace(dele, '"')
+                    dele = ''
+        result_tasks[i] = new_str
+
+    for i in range(len(result_tasks)):
+        print(result_tasks[i])
+
     num = random.randint(0, tasksCount - 1)
     return result_tasks[num], answers[num], img_adresses[num], excel_adresses[num], word_adresses[num]
